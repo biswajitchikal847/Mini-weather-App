@@ -60,8 +60,7 @@ input:focus, textarea:focus, select:focus{
 }
 #days{
     width: 100px;
-    height: 120px;
-    /* border: 1px solid black; */
+   
     font-weight: 600;
 }
 
@@ -72,6 +71,7 @@ input:focus, textarea:focus, select:focus{
     margin-top: 25px;
     border-radius: 8px;
     border: none;
+    margin-bottom: 40px;
 }
 
 #tempAndGrap_subdiv > div:first-child{
@@ -88,4 +88,22 @@ input:focus, textarea:focus, select:focus{
 
 #tempAndGrap_subdiv > div:first-child > div:last-child{
     font-size: 50px;
+}
+#minAndmax{
+    font-weight: 600;
+    width: 60%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: auto;
+    margin-top: 1px;
+    margin-bottom: 8px;
+}
+#sevenday_parentdiv > div:last-child{
+    font-weight: 600;
+    margin-top: 4px;
+    margin-bottom: 15px;
+}
+#ind_icon{
+    font-size: 25px;
+    margin-top: 25px;
 }
