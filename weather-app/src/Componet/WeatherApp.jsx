@@ -46,9 +46,9 @@ export const WeatherApp = () => {
             })
     }
 
-  function showIndData(){
-      return sevendata.data.daily[0].pressure;
-  }
+//   function showIndData(){
+//       return sevendata.data.daily[0].pressure;
+//   }
 
 
 
@@ -71,7 +71,7 @@ export const WeatherApp = () => {
                         return (
                             <>
 
-                                <div onClick={showIndData} id="sevenday_parentdiv" key={index}>
+                                <div  id="sevenday_parentdiv" key={index}>
                                     <div id="days">{e}</div>
                                     <div id="minAndmax">
                                         <span> {Math.round(sevendata.data.daily[index].temp.max - 273)}°</span>
@@ -116,7 +116,7 @@ export const WeatherApp = () => {
 
                         </div>
 
-                        <div id="prsAndhum">
+                       {data.main ? <div id="prsAndhum">
                                 <div>
                                     <div>
                                     <p>Pressure</p>
@@ -133,6 +133,7 @@ export const WeatherApp = () => {
                                 
                                 </div>
                         </div>
+                        : <p>Loading...</p> }
                     </div>
 
                 </div>
