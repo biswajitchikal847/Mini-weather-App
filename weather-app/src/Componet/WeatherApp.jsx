@@ -5,6 +5,7 @@ import { ImLocation } from 'react-icons/im';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { TiWeatherPartlySunny } from 'react-icons/ti';
 import { TiWeatherSunny } from 'react-icons/ti';
+import { TiWeatherShower } from 'react-icons/ti';
 
 
 
@@ -26,7 +27,7 @@ export const WeatherApp = () => {
             axios.get(url)
                 .then((res) => {
                     setData(res.data)
-                    // console.log(res.data)
+                    console.log(res.data)
                     setlat(res.data.coord.lat)
                     setlon(res.data.coord.lon)
                     sevenDayWeather();   //data.coord.lat,data.coord.lon
@@ -34,18 +35,20 @@ export const WeatherApp = () => {
         }
     }
 
-   function sevenDayWeather(){
-         
-            const sevendayurl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${APikey}`;
-            axios.get(sevendayurl)
+    function sevenDayWeather() {
+
+        const sevendayurl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${APikey}`;
+        axios.get(sevendayurl)
             .then((res) => {
                 setSevensetData(res);
-                console.log(sevendata);
-                console.log(res.data.daily[0].temp.max);
+                // console.log(sevendata);
+                // console.log(res.data.daily[0].temp.max);
             })
+    }
+
+  function showIndData(){
+      return sevendata.data.daily[0].pressure;
   }
-
-
 
 
 
@@ -62,33 +65,41 @@ export const WeatherApp = () => {
                         type="text" placeholder="Search" />
                     <div ><AiOutlineSearch /></div>
                 </div>
-              
+
                 {sevendata.data ? <div id="sevenday_forcast">
                     {arr.map((e, index) => {
                         return (
                             <>
-                            
-                                <div id="sevenday_parentdiv" key= {index}>
+
+                                <div onClick={showIndData} id="sevenday_parentdiv" key={index}>
                                     <div id="days">{e}</div>
                                     <div id="minAndmax">
-                                        <span> { Math.round(sevendata.data.daily[index].temp.max-273)}°</span>
-                                        <span>{Math.round(sevendata.data.daily[index].temp.min-273)}°</span>
+                                        <span> {Math.round(sevendata.data.daily[index].temp.max - 273)}°</span>
+                                        <span>{Math.round(sevendata.data.daily[index].temp.min - 273)}°</span>
                                     </div>
-                                   {/* {console.log(sevendata.data.daily[index].clouds)} */}
-                                   <div id="ind_icon">
-                                      {sevendata.data.daily[index].clouds <= 30 ?  <TiWeatherSunny /> : <TiWeatherPartlySunny />}
-                                   </div>
-                                     <div>
-                                     {sevendata.data.daily[index].clouds <= 30 ? <p>Clear</p> : <p>Cloud</p>}
-                                     </div> 
-                                    
-                                     
-                                </div> 
+                                    {/* {console.log(sevendata.data.daily[index].clouds)} */}
+                                    <div id="ind_icon">
+                                        {/* {sevendata.data.daily[index].weather[0].main == "Clouds" ?  <TiWeatherPartlySunny /> ? sevendata.data.daily[index].weather[0].main == "Rain" ? <TiWeatherShower /> : <TiWeatherSunny />} */}
+                                        {(() => {
+                                            if (sevendata.data.daily[index].weather[0].main == "Clouds")
+                                                return <TiWeatherPartlySunny />
+                                            else if (sevendata.data.daily[index].weather[0].main == "Rain")
+                                                return <TiWeatherShower />
+                                            else
+                                            return <TiWeatherSunny />
+                                        })()}
+                                    </div>
+                                    <div>
+                                        {sevendata.data.daily[index].weather[0].main}
+                                    </div>
+
+
+                                </div>
 
                             </>
                         )
                     })}
-                </div> : <p>Loading...</p> }
+                </div> : <p>Loading...</p>}
 
 
                 <div id="tempAndGraph_div">
@@ -101,12 +112,26 @@ export const WeatherApp = () => {
                                 <TiWeatherPartlySunny />
                             </div>
                         </div>
-                        <div>
+                        <div id="dailyTempGraph">
 
                         </div>
 
-                        <div>
-
+                        <div id="prsAndhum">
+                                <div>
+                                    <div>
+                                    <p>Pressure</p>
+                                    <p>{data.main.pressure} hpa</p>
+                                    </div>
+                                    
+                                </div>
+                                <div>
+                                    <div>
+                                    <p>Humidity</p>
+                                    <p>{data.main.humidity} %</p>
+                                    </div>
+                                
+                                
+                                </div>
                         </div>
                     </div>
 

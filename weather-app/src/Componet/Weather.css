@@ -107,3 +107,40 @@ input:focus, textarea:focus, select:focus{
     font-size: 25px;
     margin-top: 25px;
 }
+
+#dailyTempGraph{
+    width: 90%;
+    height: 350px;
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 25px;
+}
+
+#prsAndhum{
+    width: 90%;
+    height: 70px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2,49%);
+    grid-gap: 2%;
+    margin-top: 20px;
+}
+#prsAndhum > div{
+   background-color: #ecf9fb;
+   /* width: 50%; */
+   display: flex;
+   /* justify-content: center; */
+   align-items: center;
+   /* margin-left: 5px; */
+}
+#prsAndhum > div > div{
+    margin-left: 7px;
+}
+
+#prsAndhum > div > div > p{
+    text-align: left;
+}
+
+#prsAndhum > div > div > p:first-child{
+    font-weight: 700;
+}
