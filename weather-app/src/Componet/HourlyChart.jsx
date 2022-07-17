@@ -10,7 +10,7 @@ export const HourlyChart = ({hourlydata}) => {
       for(let i = 0; i < 24; i++){
         temp.push(Math.round(hourlydata.data.hourly[i].temp-273));
       }
-    //  console.log()
+     console.log(temp);
       const [chardata, setChartdata] = useState({
         series: [{
             name: "Temprature",
@@ -56,7 +56,7 @@ export const HourlyChart = ({hourlydata}) => {
         
       })
 
-console.log(hourlydata)
+// console.log(hourlydata)
          return (
           <>
           

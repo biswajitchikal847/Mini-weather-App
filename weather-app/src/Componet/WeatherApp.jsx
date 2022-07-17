@@ -29,7 +29,7 @@ export const WeatherApp = () => {
             axios.get(url)
                 .then((res) => {
                     setData(res.data)
-                    // console.log(res.data)
+                    console.log(res.data)
                     setlat(res.data.coord.lat)
                     setlon(res.data.coord.lon)
                     sevenDayWeather();   //data.coord.lat,data.coord.lon
@@ -43,7 +43,7 @@ export const WeatherApp = () => {
         axios.get(sevendayurl)
             .then((res) => {
                 setSevensetData(res);
-                console.log(sevendata);
+                // console.log(sevendata);
                 // console.log(res.data.daily[0].temp.max);
             })
     }
