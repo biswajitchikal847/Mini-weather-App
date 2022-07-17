@@ -6,7 +6,9 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { TiWeatherPartlySunny } from 'react-icons/ti';
 import { TiWeatherSunny } from 'react-icons/ti';
 import { TiWeatherShower } from 'react-icons/ti';
-
+import ApexCharts from 'apexcharts';
+import Chart from 'react-apexcharts';
+import { HourlyChart } from "./HourlyChart";
 
 
 export const WeatherApp = () => {
@@ -27,7 +29,7 @@ export const WeatherApp = () => {
             axios.get(url)
                 .then((res) => {
                     setData(res.data)
-                    console.log(res.data)
+                    // console.log(res.data)
                     setlat(res.data.coord.lat)
                     setlon(res.data.coord.lon)
                     sevenDayWeather();   //data.coord.lat,data.coord.lon
@@ -37,18 +39,25 @@ export const WeatherApp = () => {
 
     function sevenDayWeather() {
 
-        const sevendayurl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${APikey}`;
+        const sevendayurl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=${APikey}`;
         axios.get(sevendayurl)
             .then((res) => {
                 setSevensetData(res);
-                // console.log(sevendata);
+                console.log(sevendata);
                 // console.log(res.data.daily[0].temp.max);
             })
     }
 
-//   function showIndData(){
-//       return sevendata.data.daily[0].pressure;
-//   }
+
+    
+
+    function convertTime(unixTime){
+        let dt = new Date(unixTime * 1000)
+        let h = dt.getHours()
+        let m = "0" + dt.getMinutes()
+        let t = h + ":" + m.substr(-2)
+        return t
+    }
 
 
 
@@ -102,7 +111,7 @@ export const WeatherApp = () => {
                 </div> : <p>Loading...</p>}
 
 
-                <div id="tempAndGraph_div">
+                {data.main ?  <div id="tempAndGraph_div">
                     <div id="tempAndGrap_subdiv">
                         <div>
                             <div>
@@ -112,11 +121,12 @@ export const WeatherApp = () => {
                                 <TiWeatherPartlySunny />
                             </div>
                         </div>
-                        <div id="dailyTempGraph">
-
+                        {sevendata.data ? <div id="dailyTempGraph">
+                                <HourlyChart hourlydata={sevendata} />
                         </div>
+                        : null }
 
-                       {data.main ? <div id="prsAndhum">
+                       <div id="prsAndhum">
                                 <div>
                                     <div>
                                     <p>Pressure</p>
@@ -133,10 +143,26 @@ export const WeatherApp = () => {
                                 
                                 </div>
                         </div>
-                        : <p>Loading...</p> }
+                        
+
+                       <div id="sunriseAnsset">
+                        <div>
+                            <p>Sunrise</p>
+                            {/* <p>{data.sys.sunrise}</p> */}
+                            <p>{convertTime(data.sys.sunrise)}am</p>
+
+                        </div>
+                        <div>
+                            <p>Sunset</p>
+                            {/* <p>{data.sys.sunset}</p> */}
+                            <p>{convertTime(data.sys.sunset)}pm</p>
+                        </div>
+                       </div>
+
                     </div>
 
                 </div>
+                : <p>Loading...</p> }
             </div>
 
         </div>
