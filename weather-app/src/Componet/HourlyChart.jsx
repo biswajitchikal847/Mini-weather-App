@@ -1,6 +1,6 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import axios from 'axios';
+
 
 export const HourlyChart = ({hourlydata}) => {
 
