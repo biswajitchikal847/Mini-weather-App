@@ -9,6 +9,10 @@ import { TiWeatherShower } from 'react-icons/ti';
 import ApexCharts from 'apexcharts';
 import Chart from 'react-apexcharts';
 import { HourlyChart } from "./HourlyChart";
+import { Loader } from "./Loader/Loader";
+import { useEffect } from "react";
+import {debounce} from "lodash";
+import { CurrentLocation } from "./Location_permission";
 
 
 export const WeatherApp = () => {
@@ -19,23 +23,47 @@ export const WeatherApp = () => {
     const [lon, setlon] = useState(0);
 
 
+//   console.log(givePermission);
+
+
+    const handelInput = debounce((text) => {
+        if(text.length > 2){
+            setLocation(text)
+        }else{
+            alert("Enter atlist 3 char")
+        }
+             
+             
+      },1200);
     const arr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"];
 
-    const APikey = "58feccf8f4b05447650ca18c81d6f659";
+    const APikey = "6d514e6c31ef6012472bbc8bfa14c2d3";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APikey}`;
 
-    const searchLocation = (event) => {
-        if (event.key = "Enter") {
-            axios.get(url)
+    // const searchLocation = (event) => {
+    //     if (event.key = "Enter") {
+    //         axios.get(url)
+    //             .then((res) => {
+    //                 setData(res.data)
+    //                 console.log(res.data)
+    //                 setlat(res.data.coord.lat)
+    //                 setlon(res.data.coord.lon)
+    //                 sevenDayWeather();   //data.coord.lat,data.coord.lon
+    //             })
+    //     }
+    // }
+ 
+       
+    useEffect(() => {
+        axios.get(url)
                 .then((res) => {
                     setData(res.data)
-                    console.log(res.data)
+                    // console.log(res.data)
                     setlat(res.data.coord.lat)
                     setlon(res.data.coord.lon)
                     sevenDayWeather();   //data.coord.lat,data.coord.lon
                 })
-        }
-    }
+    },[location])
 
     function sevenDayWeather() {
 
@@ -43,8 +71,7 @@ export const WeatherApp = () => {
         axios.get(sevendayurl)
             .then((res) => {
                 setSevensetData(res);
-                // console.log(sevendata);
-                // console.log(res.data.daily[0].temp.max);
+               
             })
     }
 
@@ -68,13 +95,13 @@ export const WeatherApp = () => {
                 <div id="search_div">
                     <div id="location_icon"> <ImLocation /></div>
                     <input
-                        value={location}
-                        onChange={e => setLocation(e.target.value)}
-                        onKeyPress={searchLocation}
+                        // value={location}
+                        onChange={(e) => handelInput(e.target.value)}
+                        // onKeyPress={searchLocation}
                         type="text" placeholder="Search" />
                     <div ><AiOutlineSearch /></div>
                 </div>
-
+                  
                 {sevendata.data ? <div id="sevenday_forcast">
                     {arr.map((e, index) => {
                         return (
@@ -108,7 +135,7 @@ export const WeatherApp = () => {
                             </>
                         )
                     })}
-                </div> : <p>Loading...</p>}
+                </div> : <Loader />}
 
 
                 {data.main ?  <div id="tempAndGraph_div">
@@ -162,7 +189,7 @@ export const WeatherApp = () => {
                     </div>
 
                 </div>
-                : <p>Loading...</p> }
+                : <Loader /> }
             </div>
 
         </div>
