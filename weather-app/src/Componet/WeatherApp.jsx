@@ -71,7 +71,8 @@ export const WeatherApp = () => {
         axios.get(sevendayurl)
             .then((res) => {
                 setSevensetData(res);
-               
+                // console.log(sevendata);
+                // console.log(res.data.daily[0].temp.max);
             })
     }
 
