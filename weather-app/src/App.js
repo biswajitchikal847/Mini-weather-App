@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <CurrentLocation />
-      <WeatherApp />
+      {/* <WeatherApp /> */}
     </div>
   );
 }

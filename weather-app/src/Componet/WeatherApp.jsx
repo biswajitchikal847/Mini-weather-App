@@ -15,16 +15,14 @@ import {debounce} from "lodash";
 import { CurrentLocation } from "./Location_permission";
 
 
-export const WeatherApp = () => {
+export const WeatherApp = ({lati,logi,currlocation}) => {
+    const [lat, setlat] = useState(lati);
+    const [lon, setlon] = useState(logi);
     const [data, setData] = useState({});
-    const [location, setLocation] = useState('');
+    const [location, setLocation] = useState("delhi");
     const [sevendata, setSevensetData] = useState({});
-    const [lat, setlat] = useState(0);
-    const [lon, setlon] = useState(0);
-
-
+  
 //   console.log(givePermission);
-
 
     const handelInput = debounce((text) => {
         if(text.length > 2){
@@ -32,28 +30,12 @@ export const WeatherApp = () => {
         }else{
             alert("Enter atlist 3 char")
         }
-             
-             
       },1200);
     const arr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"];
 
     const APikey = "6d514e6c31ef6012472bbc8bfa14c2d3";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APikey}`;
 
-    // const searchLocation = (event) => {
-    //     if (event.key = "Enter") {
-    //         axios.get(url)
-    //             .then((res) => {
-    //                 setData(res.data)
-    //                 console.log(res.data)
-    //                 setlat(res.data.coord.lat)
-    //                 setlon(res.data.coord.lon)
-    //                 sevenDayWeather();   //data.coord.lat,data.coord.lon
-    //             })
-    //     }
-    // }
- 
-       
     useEffect(() => {
         axios.get(url)
                 .then((res) => {
@@ -61,9 +43,11 @@ export const WeatherApp = () => {
                     // console.log(res.data)
                     setlat(res.data.coord.lat)
                     setlon(res.data.coord.lon)
+                    console.log(lat,lon)
                     sevenDayWeather();   //data.coord.lat,data.coord.lon
                 })
-    },[location])
+                console.log(lat,lon, "lat log is")
+    },[location,lat,lon])
 
     function sevenDayWeather() {
 
@@ -71,13 +55,10 @@ export const WeatherApp = () => {
         axios.get(sevendayurl)
             .then((res) => {
                 setSevensetData(res);
-                // console.log(sevendata);
-                // console.log(res.data.daily[0].temp.max);
+                console.log(sevendata);
+                console.log(res.data.daily[0].temp.max);
             })
     }
-
-
-    
 
     function convertTime(unixTime){
         let dt = new Date(unixTime * 1000)
@@ -87,11 +68,9 @@ export const WeatherApp = () => {
         return t
     }
 
-
-
-
     return (
         <div>
+          {/* <CurrentLocation /> */}
             <div id="parent_div">
                 <div id="search_div">
                     <div id="location_icon"> <ImLocation /></div>
@@ -103,12 +82,12 @@ export const WeatherApp = () => {
                     <div ><AiOutlineSearch /></div>
                 </div>
                   
-                {sevendata.data ? <div id="sevenday_forcast">
+                {sevendata.data ? 
+                <div id="sevenday_forcast">
                     {arr.map((e, index) => {
                         return (
                             <>
-
-                                <div  id="sevenday_parentdiv" key={index}>
+                              <div  id="sevenday_parentdiv" key={index}>
                                     <div id="days">{e}</div>
                                     <div id="minAndmax">
                                         <span> {Math.round(sevendata.data.daily[index].temp.max - 273)}°</span>
@@ -129,14 +108,12 @@ export const WeatherApp = () => {
                                     <div>
                                         {sevendata.data.daily[index].weather[0].main}
                                     </div>
-
-
                                 </div>
-
                             </>
                         )
                     })}
-                </div> : <Loader />}
+                </div>
+                 : <Loader />}
 
 
                 {data.main ?  <div id="tempAndGraph_div">

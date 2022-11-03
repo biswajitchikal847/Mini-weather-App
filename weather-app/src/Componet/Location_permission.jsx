@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { WeatherApp } from "./WeatherApp";
+import { Loader } from "./Loader/Loader";
 
 export const CurrentLocation= () => {
 const [lat,setLat] = useState("")
@@ -19,15 +21,17 @@ const [log,setLog] = useState("")
     getLocation()
   },[])
 
-
+console.log(lat,log, "current location")
 return(
   <>
-    <div>
+    {/* <div>
       {lat}
     </div>
     <div>
       {log}
-    </div>
+    </div> */}
+   {lat ? <WeatherApp lati={lat} logi={log} currlocation={true}/> : <Loader /> }
+    
   </>
 )
 
