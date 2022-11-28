@@ -6,8 +6,8 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { TiWeatherPartlySunny } from 'react-icons/ti';
 import { TiWeatherSunny } from 'react-icons/ti';
 import { TiWeatherShower } from 'react-icons/ti';
-import ApexCharts from 'apexcharts';
-import Chart from 'react-apexcharts';
+// import ApexCharts from 'apexcharts';
+// import Chart from 'react-apexcharts';
 import { HourlyChart } from "./HourlyChart";
 import { Loader } from "./Loader/Loader";
 import { useEffect } from "react";
@@ -15,11 +15,11 @@ import {debounce} from "lodash";
 import { CurrentLocation } from "./Location_permission";
 
 
-export const WeatherApp = ({lati,logi,currlocation}) => {
+export const WeatherApp = ({lati,logi,currlocation,currentCity}) => {
     const [lat, setlat] = useState(lati);
     const [lon, setlon] = useState(logi);
     const [data, setData] = useState({});
-    const [location, setLocation] = useState("delhi");
+    const [location, setLocation] = useState(currentCity);
     const [sevendata, setSevensetData] = useState({});
   
 //   console.log(givePermission);
@@ -97,9 +97,9 @@ export const WeatherApp = ({lati,logi,currlocation}) => {
                                     <div id="ind_icon">
                                         {/* {sevendata.data.daily[index].weather[0].main == "Clouds" ?  <TiWeatherPartlySunny /> ? sevendata.data.daily[index].weather[0].main == "Rain" ? <TiWeatherShower /> : <TiWeatherSunny />} */}
                                         {(() => {
-                                            if (sevendata.data.daily[index].weather[0].main == "Clouds")
+                                            if (sevendata.data.daily[index].weather[0].main === "Clouds")
                                                 return <TiWeatherPartlySunny />
-                                            else if (sevendata.data.daily[index].weather[0].main == "Rain")
+                                            else if (sevendata.data.daily[index].weather[0].main === "Rain")
                                                 return <TiWeatherShower />
                                             else
                                             return <TiWeatherSunny />
